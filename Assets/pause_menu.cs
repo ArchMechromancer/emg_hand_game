@@ -7,17 +7,19 @@ public class pause_menu : MonoBehaviour
 {
     
     public static bool GameIsPaused = false;
+    public static bool GameHasBegun = false;
 
     public GameObject pauseMenuUI;
     public timer timer;
     void Start()
     {
         timer = FindObjectOfType<timer>();
+        Time.timeScale = 0f;
     }
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && (timer.timeRemaining !=0))
+        if (Input.GetKeyDown(KeyCode.Escape) && (timer.timeRemaining !=0) && (GameHasBegun == true))
         {
             if (GameIsPaused)
             {
@@ -28,6 +30,14 @@ public class pause_menu : MonoBehaviour
                 Pause();
             }
         }
+    }
+    
+    public void Start_game()
+    {
+        
+        Time.timeScale = 1f;
+        GameHasBegun = true;
+
     }
 
     public void Resume()
@@ -46,12 +56,13 @@ public class pause_menu : MonoBehaviour
     public void reset()
     {
         SceneManager.LoadScene("main_scene");
-        Time.timeScale = 1f;
+        Time.timeScale = 0f;
+        GameHasBegun = false;
+        GameIsPaused = false;
     }
 
-    public void quit_to_menu() 
+    public void quit_game() 
     {
-        SceneManager.LoadScene("main_menu");
-        Time.timeScale = 1f;
+        Application.Quit();
     }
 }
