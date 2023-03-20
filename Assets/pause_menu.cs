@@ -11,6 +11,8 @@ public class pause_menu : MonoBehaviour
     public static bool GameIsPaused = false;
     public static bool GameHasBegun = false;
 
+    public GameObject robot;
+    public GameObject audio_source;
     public GameObject pauseMenuUI;
     public GameObject canvasPause;
     public timer timer;
@@ -39,10 +41,12 @@ public class pause_menu : MonoBehaviour
     
     public void Start_game()
     {
+        Debug.Log("sendingnsddini");
+        robot.SendMessage("JointsToTarget", 5.0);
+        audio_source.SendMessage("TextToSpeech", "surprised neutral");
         canvasPause.SetActive(true);
         Time.timeScale = 1f;
         GameHasBegun = true;
-
     }
 
     public void Resume()
