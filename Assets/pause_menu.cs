@@ -2,14 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class pause_menu : MonoBehaviour
 {
     
+    //public GameEventListener botao = null;
     public static bool GameIsPaused = false;
     public static bool GameHasBegun = false;
 
+    public GameObject robot;
+    public GameObject audio_source;
     public GameObject pauseMenuUI;
+    public GameObject canvasPause;
     public timer timer;
     void Start()
     {
@@ -19,7 +24,9 @@ public class pause_menu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && (timer.timeRemaining !=0) && (GameHasBegun == true))
+        if (Input.GetKeyDown(KeyCode.Space) && (timer.timeRemaining !=0) && (GameHasBegun == true))
+        //if (OVRInput.Get(OVRInput.Button.Three) && (timer.timeRemaining !=0) && (GameHasBegun == true))
+        
         {
             if (GameIsPaused)
             {
@@ -34,20 +41,24 @@ public class pause_menu : MonoBehaviour
     
     public void Start_game()
     {
-        
+        Debug.Log("sendingnsddini");
+        robot.SendMessage("JointsToTarget", 5.0);
+        audio_source.SendMessage("TextToSpeech", "surprised neutral");
+        canvasPause.SetActive(true);
         Time.timeScale = 1f;
         GameHasBegun = true;
-
     }
 
     public void Resume()
     {
+        canvasPause.SetActive(true);
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
     }
-    void Pause()
+    public void Pause()
     {
+        canvasPause.SetActive(false);
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
